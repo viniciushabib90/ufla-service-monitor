@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: ufla-service-monitor
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: ufla-service-monitor
+
+  template:
+    metadata:
+      labels:
+        app: ufla-service-monitor
+
+    spec:
+      containers:
+        - name: ufla-service-monitor
+          image: ufla-service-monitor:1.0
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8000
+              name: http
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
