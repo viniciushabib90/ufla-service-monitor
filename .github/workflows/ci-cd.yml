@@ -61,7 +61,7 @@ jobs:
     name: Deploy Kubernetes and Nomad
     runs-on: [self-hosted, Linux, X64, ufla-deploy]
     needs: build
-    if: github.event_name == 'workflow_dispatch'
+    if: ${{ always() && needs.build.result == 'success' && github.event_name == 'workflow_dispatch' }}
 
     steps:
       - name: Checkout repository
