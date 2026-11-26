@@ -17,6 +17,7 @@ spec:
         app: ufla-service-monitor
 
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: ufla-service-monitor
           image: ufla-service-monitor:1.0
@@ -44,6 +45,8 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
+              ephemeral-storage: 64Mi
             limits:
               cpu: 500m
               memory: 256Mi
+              ephemeral-storage: 256Mi
